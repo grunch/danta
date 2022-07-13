@@ -1,5 +1,5 @@
-use rocket;
 use cacri;
+use rocket;
 
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {

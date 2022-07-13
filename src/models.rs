@@ -1,5 +1,5 @@
 use crate::schema::attendees;
-use rocket::serde::{Serialize, Deserialize};
+use rocket::serde::{Deserialize, Serialize};
 
 #[derive(Insertable)]
 #[table_name = "attendees"]
@@ -24,4 +24,12 @@ pub struct Attendee {
     pub email: String,
     pub paid: bool,
     pub created_at: chrono::NaiveDateTime,
+}
+
+#[derive(Queryable, Debug, Serialize, Deserialize)]
+#[serde(crate = "rocket::serde")]
+pub struct User {
+    pub name: String,
+    pub lastname: String,
+    pub email: String,
 }

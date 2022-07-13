@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="/public/css/style.css" rel="stylesheet">
+  <title>Registro Lightning Hackday</title>
+</head>
+<body>
+  <div class="container">
+    <div class="mt-5 d-flex justify-content-evenly align-items-center">
+        <div>
+          <h1>Lightning Hackday</h1>
+        </div>
+        <div>
+          <span id="bolt">⚡</span>
+        </div>
+    </div>
+    <div id="attendee-form" class="collapse">
+      <div class="row">
+        <p class="text-center">Ingrese sus datos para registrarse</p>
+      </div>
+      <form novalidate class="row mt-3 g-3 needs-validation" id="form">
+        <div class="col">
+          <div class="form-floating mb-3">
+            <input type="text" id="firstname" placeholder="Juan" class="form-control" required>
+            <label for="firstname">Nombre</label>
+            <div class="invalid-feedback">
+              Nombre es requerido
+            </div>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" id="lastname" placeholder="Trueno" class="form-control" required>
+            <label for="lastname">Apellido</label>
+            <div class="invalid-feedback">
+              Apellido es requerido
+            </div>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="email" id="email" class="form-control" placeholder="juan@trueno.com" required>
+            <label for="email">Email</label>
+            <div class="invalid-feedback">
+              Debe introducir un e-mail válido
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="invoice" class="collapse bg-light rounded-3">
+      <h3 id="invoice-memo">#LightningHackday POAP</h3>
+      <h2><span id="invoice-amount">0</span> SATs</h2>
+      <p class="lead">Para continuar, haga un pago con una billetera con soporte Bitcoin Lightning Network a la siguiente factura.</p>
+      <p class="lead">Esta factura expira en 10 minutos.</p>
+      <hr class="my-4">
+      <div align="center" id="qr-code" class="mb-3"></div>
+      <h6>Factura:</h6>
+      <p class="long-word" id="invoice-text"></p>
+    </div>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="public/js/kjua.min.js"></script>
+  <script src="public/js/main.js"></script>
+  <script>
+    (function () {
+      'use strict'
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.querySelectorAll('.needs-validation')
+
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+  </script>
+</body>
+</html>

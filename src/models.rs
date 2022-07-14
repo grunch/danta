@@ -25,11 +25,3 @@ pub struct Attendee {
     pub paid: bool,
     pub created_at: chrono::NaiveDateTime,
 }
-
-#[derive(Queryable, Debug, Serialize, Deserialize)]
-#[serde(crate = "rocket::serde")]
-pub struct User {
-    pub name: String,
-    pub lastname: String,
-    pub email: String,
-}

@@ -66,7 +66,7 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
     let hash_str = invoiceResponse
         .r_hash
         .iter()
-        .map(|h| format!("{h:02X}"))
+        .map(|h| format!("{h:02x}"))
         .collect::<Vec<String>>()
         .join("");
 
@@ -106,7 +106,7 @@ pub async fn lookup_invoice(hash: &str) -> Json<InvoiceResponse> {
     let preimage = invoice
         .r_preimage
         .iter()
-        .map(|h| format!("{h:02X}"))
+        .map(|h| format!("{h:02x}"))
         .collect::<Vec<String>>()
         .join("");
 

@@ -18,14 +18,14 @@ pub async fn invoice(
       let hash_str = invoice
       .r_hash
       .iter()
-      .map(|h| format!("{h:02X}"))
+      .map(|h| format!("{h:02x}"))
       .collect::<Vec<String>>()
       .join("");
 
       let preimage_str = invoice
         .r_preimage
         .iter()
-        .map(|h| format!("{h:02X}"))
+        .map(|p| format!("{p:02x}"))
         .collect::<Vec<String>>()
         .join("");
       println!("Preimage: {preimage_str}");

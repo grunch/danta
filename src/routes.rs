@@ -110,13 +110,13 @@ pub async fn lookup_invoice(hash: &str) -> Json<InvoiceResponse> {
         .collect::<Vec<String>>()
         .join("");
 
-    let preimage = if invoice.settled {
+    let preimage = if invoice.settle_date > 0 {
         preimage
     } else {
         "".to_string()
     };
     Json(InvoiceResponse {
-        paid: invoice.settled,
+        paid: invoice.settle_date > 0,
         preimage,
         description: invoice.memo,
     })

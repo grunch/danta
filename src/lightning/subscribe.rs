@@ -14,7 +14,7 @@ pub async fn invoice(
     .expect("Failed to call subscribe_invoices")
     .into_inner();
   while let Some(invoice) = invoice_stream.message().await.expect("Failed to receive invoices") {
-    if invoice.settled {
+    if invoice.settle_date > 0 {
       let hash_str = invoice
       .r_hash
       .iter()

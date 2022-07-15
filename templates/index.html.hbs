@@ -53,7 +53,7 @@
       </form>
     </div>
 
-    <div id="invoice" class="collapse bg-light rounded-3">
+    <div id="invoice" class="collapse bg-light rounded-3 jumbotron">
       <h3 id="invoice-memo">#LightningHackday POAP</h3>
       <h2><span id="invoice-amount">0</span> SATs</h2>
       <p class="lead">Para continuar, haga un pago con una billetera con soporte Bitcoin Lightning Network a la siguiente factura.</p>
@@ -61,7 +61,21 @@
       <hr class="my-4">
       <div align="center" id="qr-code" class="mb-3"></div>
       <h6>Factura:</h6>
-      <p class="long-word" id="invoice-text"></p>
+      <p id="invoice-text"></p>
+    </div>
+
+    <div id="success-box" class="collapse bg-light rounded-3 jumbotron">
+      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark_circle" cx="26" cy="26" r="25" fill="none"></circle>
+        <path class="checkmark_check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"></path>
+      </svg>
+      <p class="lead" align="center">¡Pago realizado correctamente! Nos vemos en el #LightningHackday 😀</p>
+      <p class="lead" align="center">Presente este QR en la entrada:</p>
+      <hr class="my-4">
+      <div align="center" id="ticket-qr-code" class="mb-3"></div>
+      <div class="mb-3" align="center">
+        <a href="/" type="submit" class="btn btn-primary btn-lg btn-block">Regresar al inicio</a>
+      </div>
     </div>
 
   </div>

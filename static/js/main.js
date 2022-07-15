@@ -1,7 +1,7 @@
 const App = {
   endpoint: "/api",
   interval: null,
-  server: "http://localhost:3000",
+  server: "http://localhost:8000",
 };
 
 App.init = () => {
@@ -12,13 +12,13 @@ App.init = () => {
 App.submit = async (e) => {
   try {
     e.preventDefault();
-    const name = $("#name").val();
+    const firstname = $("#firstname").val();
     const lastname = $("#lastname").val();
     const email = $("#email").val();
 
     const response = await App.makeRequest({
       api: "invoice",
-      post: { name, lastname, email },
+      post: { firstname, lastname, email },
     });
 
     if (!response) console.error("Error getting data!");
@@ -41,15 +41,14 @@ App.waitPayment = async (hash) => {
   const response = await App.makeRequest({
     api: `invoice/${hash}`,
   });
-  if (response.success && response.paid) {
+  if (response.paid) {
     clearInterval(App.interval);
     App.interval = null;
     $("#invoice").collapse("hide");
     const url = `${App.server}${App.endpoint}/verify/${response.preimage}`;
     const qrCode = App.qrCode(url, 400);
-    $(".preimage-qr-code").html(qrCode);
+    $("#ticket-qr-code").html(qrCode);
     $("#success-box").collapse("show");
-    setTimeout(App.getBalance, 2000);
   }
 };
 

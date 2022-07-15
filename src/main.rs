@@ -7,7 +7,7 @@ use cacri::lightning::ln::connect;
 async fn main() -> Result<(), rocket::Error> {
     let _ = cacri::rocket().launch().await?;
     let mut client = connect().await.unwrap();
-    invoice(&mut client).await;
+    // invoice(&mut client).await;
 
     Ok(())
 }

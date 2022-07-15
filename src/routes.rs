@@ -1,6 +1,7 @@
 use crate::db::connect as dbconnect;
 use crate::lightning::ln::{add_invoice, get_invoice, connect};
 use crate::models::{Attendee, NewAttendee};
+use crate::lightning::subscribe::invoice;
 use diesel::prelude::*;
 use dotenv::dotenv;
 use hex::FromHex;
@@ -61,8 +62,8 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
     };
     let mut client = connect().await.unwrap();
     let memo = "#LightningHackday POAP";
-    let invoice = add_invoice(&mut client, memo, amount).await.unwrap();
-    let hash_str = invoice
+    let invoiceResponse = add_invoice(&mut client, memo, amount).await.unwrap();
+    let hash_str = invoiceResponse
         .r_hash
         .iter()
         .map(|h| format!("{h:02X}"))
@@ -82,11 +83,12 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
     };
     let response = AddInvoiceResponse {
         hash: hash_str.clone(),
-        request: invoice.payment_request,
+        request: invoiceResponse.payment_request,
         description: memo.to_string(),
         amount,
         success: true,
     };
+    invoice(&mut client).await;
 
     diesel::insert_into(attendees)
         .values(&new_attendee)

@@ -6,7 +6,6 @@ use diesel::prelude::*;
 pub async fn invoice(
   client: &mut tonic_lnd::Client,
 ) {
-  println!("subscribeXXXXXXXX invoices");
   use crate::schema::attendees::dsl::*;
   let conn = connect();
   let mut invoice_stream = client
@@ -14,7 +13,6 @@ pub async fn invoice(
     .await
     .expect("Failed to call subscribe_invoices")
     .into_inner();
-  println!("{invoice_stream:?}");
   while let Some(invoice) = invoice_stream.message().await.expect("Failed to receive invoices") {
     if invoice.settled {
       let hash_str = invoice
@@ -30,7 +28,7 @@ pub async fn invoice(
         .map(|h| format!("{h:02X}"))
         .collect::<Vec<String>>()
         .join("");
-      println!("{preimage_str}");
+      println!("Preimage: {preimage_str}");
       diesel::update(
         attendees.filter(hash.eq(&hash_str))
       )

@@ -8,7 +8,7 @@ use rocket::fs::FileServer;
 use rocket_dyn_templates::Template;
 
 pub mod db;
-mod lightning;
+pub mod lightning;
 pub mod models;
 pub mod routes;
 pub mod schema;
@@ -21,7 +21,11 @@ pub fn rocket() -> _ {
         .mount("/", routes![routes::index])
         .mount(
             "/api",
-            routes![routes::get_all_attendees, routes::create_invoice],
+            routes![
+                routes::get_all_attendees,
+                routes::create_invoice,
+                routes::lookup_invoice
+            ],
         )
         .attach(Template::fairing())
 }

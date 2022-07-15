@@ -3,7 +3,7 @@ table! {
         id -> Integer,
         hash -> Text,
         preimage -> Text,
-        name -> Text,
+        firstname -> Text,
         lastname -> Text,
         email -> Text,
         paid -> Bool,

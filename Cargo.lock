@@ -189,6 +189,7 @@ dependencies = [
  "chrono",
  "diesel",
  "dotenv",
+ "hex",
  "rocket",
  "rocket_dyn_templates",
  "serde",

@@ -9,7 +9,7 @@ pub async fn invoice(
   use crate::schema::attendees::dsl::*;
   let conn = connect();
   let mut invoice_stream = client
-    .subscribe_invoices(InvoiceSubscription { add_index: 1, settle_index: 1 })
+    .subscribe_invoices(InvoiceSubscription { add_index: 0, settle_index: 0 })
     .await
     .expect("Failed to call subscribe_invoices")
     .into_inner();

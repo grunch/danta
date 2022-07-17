@@ -1,1 +1,35 @@
-# cacri
+# Cacri - Lightning Network event registration app
+
+Simple lightning event registration rust app, this app connects to a lnd node using gRPC.
+
+# Install
+
+Clone the repository and then create a new `.env` file based on `.env-sample` file.
+
+```
+$ git clone https://github.com/grunch/cacri.git
+$ cd cacri
+$ cp .env-sample .env
+```
+
+To connect with a lnd node we need to set 3 variables in the `.env` file .
+
+_LND_CERT_FILE:_ LND node TLS certificate file path, the default is `$HOME/.lnd/tls.cert` on the lnd node.
+
+_LND_MACAROON_FILE:_ Macaroon file path, the macaroon file contains permission for doing actions on the lnd node, for this app a good choice is to use the `invoice.macaroon` file, the default is `$HOME/.lnd/data/chain/bitcoin/mainnet/invoice.macaroon`.
+
+_LND_GRPC_HOST:_ IP address or domain name from the LND node and the port separated by colon (`:`), example: `192.168.0.2:10009`.
+
+## Requirements:
+
+0. You need Rust version 1.48 or higher to compile this.
+1. You need to have LND 0.14.2, ideally v0.15.0-beta
+
+## Compile and execute it:
+
+```
+$ cargo build
+$ target/debug/cacri
+```
+
+Go to http://localhost:8000

@@ -1,6 +1,6 @@
-use tonic_lnd::rpc::{AddInvoiceResponse, Invoice, PaymentHash};
 use dotenv::dotenv;
 use std::env;
+use tonic_lnd::rpc::{AddInvoiceResponse, Invoice, PaymentHash};
 
 pub async fn connect() -> Result<tonic_lnd::Client, tonic_lnd::ConnectError> {
     dotenv().ok();

@@ -10,7 +10,7 @@ chrono = { version = "0.4.19", features = ["serde"] }
 diesel = { version = "1.4.8", features = ["sqlite", "chrono"]}
 dotenv = "0.15.0"
 rocket = { version = "0.5.0-rc.2", default-features = false, features = ["json"] }
-serde = { version = "1.0.138", features = ["derive"]}
+serde = { version = "1.0.138", features = ["derive"] }
 serde_derive = "1.0.139"
 serde_json = "1.0.82"
 tonic_lnd = "0.4.0"

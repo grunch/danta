@@ -1,6 +1,5 @@
-use cacri;
-use cacri::db::connect as dbconnect;
-use cacri::lightning::ln::connect;
+use danta::db::connect as dbconnect;
+use danta::lightning::ln::connect;
 use diesel::prelude::*;
 use rocket;
 use tonic_lnd::rpc::InvoiceSubscription;
@@ -40,7 +39,7 @@ async fn main() -> Result<(), rocket::Error> {
                     .join("");
                 // Now we know the user paid we update db
                 let conn = dbconnect();
-                use cacri::schema::attendees::dsl::*;
+                use danta::schema::attendees::dsl::*;
                 diesel::update(attendees.filter(hash.eq(&hash_str)))
                     .set((preimage.eq(preimage_str), paid.eq(true)))
                     .execute(&conn)
@@ -49,7 +48,7 @@ async fn main() -> Result<(), rocket::Error> {
         }
     });
 
-    let _ = cacri::rocket().launch().await?;
+    let _ = danta::rocket().launch().await?;
 
     Ok(())
 }

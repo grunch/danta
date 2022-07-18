@@ -18,7 +18,9 @@ tonic_lnd = "0.4.0"
 tokio = { version =  "1.20.0", features = ["rt-multi-thread", "macros"] }
 tokio-stream = "0.1.9"
 hex = "0.4.3"
-genpdf = "0.2.0"
+genpdf = { version = "0.2.0", features = ["images"]}
+qrcode = "0.12.0"
+image = "0.23.14"
 
 [dependencies.rocket_dyn_templates]
 version = "0.1.0-rc.2"

@@ -10,6 +10,7 @@ use rocket_dyn_templates::Template;
 pub mod db;
 pub mod lightning;
 pub mod models;
+pub mod pdf;
 pub mod routes;
 pub mod schema;
 
@@ -17,6 +18,7 @@ pub mod schema;
 pub fn rocket() -> _ {
     rocket::build()
         .register("/", catchers![routes::not_found])
+        .mount("/files", FileServer::from(relative!("files")))
         .mount("/public", FileServer::from(relative!("static")))
         .mount("/", routes![routes::index])
         .mount(

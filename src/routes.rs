@@ -1,6 +1,7 @@
 use crate::db::connect as dbconnect;
 use crate::lightning::ln::{add_invoice, connect, get_invoice};
 use crate::models::{Attendee, NewAttendee};
+use crate::pdf::generate_pdf;
 use diesel::prelude::*;
 use dotenv::dotenv;
 use hex::FromHex;
@@ -101,18 +102,18 @@ pub async fn lookup_invoice(hash: &str) -> Json<InvoiceResponse> {
     let mut client = connect().await.unwrap();
     let hash = <[u8; 32]>::from_hex(hash).expect("Decoding failed");
     let invoice = get_invoice(&mut client, &hash).await.unwrap();
-    let preimage = invoice
+    let mut preimage = invoice
         .r_preimage
         .iter()
         .map(|h| format!("{h:02x}"))
         .collect::<Vec<String>>()
         .join("");
 
-    let preimage = if invoice.settle_date > 0 {
-        preimage
+    if invoice.settle_date > 0 {
+        generate_pdf(&preimage);
     } else {
-        "".to_string()
-    };
+        preimage = "".to_string();
+    }
     Json(InvoiceResponse {
         paid: invoice.settle_date > 0,
         preimage,

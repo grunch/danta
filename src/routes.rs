@@ -55,13 +55,13 @@ pub fn get_all_attendees() -> Json<Vec<Attendee>> {
 #[post("/invoice", format = "application/json", data = "<user>")]
 pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
     dotenv().ok();
-    let amount = match env::var("TICKET_AMOUNT") {
+    let amount = match env::var("EVENT_TICKET_AMOUNT") {
         Ok(amt) => amt.parse::<u32>().unwrap(),
-        Err(_) => panic!("TICKET_AMOUNT must be set"),
+        Err(_) => panic!("EVENT_TICKET_AMOUNT must be set"),
     };
+    let memo = env::var("EVENT_TICKET_DESCRIPTION").expect("EVENT_TICKET_DESCRIPTION must be set");
     let mut client = connect().await.unwrap();
-    let memo = "#LightningHackday POAP";
-    let invoice_response = add_invoice(&mut client, memo, amount).await.unwrap();
+    let invoice_response = add_invoice(&mut client, &memo, amount).await.unwrap();
     let hash_str = invoice_response
         .r_hash
         .iter()

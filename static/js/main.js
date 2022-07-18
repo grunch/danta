@@ -20,6 +20,7 @@ App.submit = async (e) => {
       api: "invoice",
       post: { firstname, lastname, email },
     });
+    console.log(response);
 
     if (!response) console.error("Error getting data!");
     if (response.success) {
@@ -45,9 +46,10 @@ App.waitPayment = async (hash) => {
     clearInterval(App.interval);
     App.interval = null;
     $("#invoice").collapse("hide");
-    const url = `${App.server}${App.endpoint}/verify/${response.preimage}`;
+    const url = `${App.server}/verify/${response.preimage}`;
     const qrCode = App.qrCode(url, 400);
     $("#ticket-qr-code").html(qrCode);
+    $("#pdffile").attr("href", `/files/${response.preimage}.pdf`);
     $("#success-box").collapse("show");
   }
 };

@@ -1,4 +1,4 @@
-# Cacri - Lightning Network event registration app
+# Danta - Lightning Network event registration app
 
 Simple lightning event registration rust app, this app connects to a lnd node using gRPC.
 

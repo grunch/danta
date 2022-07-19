@@ -2,7 +2,8 @@
 }
 
 #bolt {
-  font-size: 80px;
+  width: 300%;
+  height: auto;
 }
 
 #invoice-text {

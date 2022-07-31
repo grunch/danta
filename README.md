@@ -7,8 +7,8 @@ Simple lightning event registration rust app, this app connects to a lnd node us
 Clone the repository and then create a new `.env` file based on `.env-sample` file.
 
 ```
-$ git clone https://github.com/grunch/cacri.git
-$ cd cacri
+$ git clone https://github.com/grunch/danta.git
+$ cd danta
 $ cp .env-sample .env
 ```
 
@@ -29,7 +29,7 @@ _LND_GRPC_HOST:_ IP address or domain name from the LND node and the port separa
 
 ```
 $ cargo build
-$ target/debug/cacri
+$ target/debug/danta
 ```
 
 Go to http://localhost:8000

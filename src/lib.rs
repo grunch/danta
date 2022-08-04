@@ -26,7 +26,8 @@ pub fn rocket() -> _ {
             routes![
                 routes::get_all_attendees,
                 routes::create_invoice,
-                routes::lookup_invoice
+                routes::lookup_invoice,
+                routes::verify,
             ],
         )
         .attach(Template::fairing())

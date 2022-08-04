@@ -7,9 +7,7 @@ use std::env;
 use std::fs::remove_file;
 use std::path::Path;
 
-const FONT_DIRS: &[&str] = &[
-    "fonts",
-];
+const FONT_DIRS: &[&str] = &["fonts"];
 const DEFAULT_FONT_NAME: &'static str = "LiberationSans";
 
 pub fn generate_pdf(preimage: &str) {

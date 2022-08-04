@@ -10,6 +10,16 @@ use rocket::serde::{Deserialize, Serialize};
 use rocket::Request;
 use rocket_dyn_templates::{context, Template};
 use std::env;
+use tonic_openssl_lnd::lnrpc::invoice::InvoiceState;
+
+#[derive(Serialize, Deserialize)]
+#[serde(crate = "rocket::serde")]
+pub struct VerifyResponse {
+    pub firstname: String,
+    pub lastname: String,
+    pub email: String,
+    pub verified: bool,
+}
 
 #[derive(Deserialize)]
 #[serde(crate = "rocket::serde")]
@@ -109,15 +119,35 @@ pub async fn lookup_invoice(hash: &str) -> Json<InvoiceResponse> {
         .collect::<Vec<String>>()
         .join("");
 
-    if invoice.settle_date > 0 {
-        generate_pdf(&preimage);
-    } else {
-        preimage = "".to_string();
+    if let Some(state) = InvoiceState::from_i32(invoice.state) {
+        if state == InvoiceState::Settled {
+            generate_pdf(&preimage);
+        } else {
+            preimage = "".to_string();
+        }
     }
     Json(InvoiceResponse {
         paid: invoice.settle_date > 0,
         preimage,
         description: invoice.memo,
+    })
+}
+
+#[get("/verify/<secret>")]
+pub async fn verify(secret: &str) -> Json<VerifyResponse> {
+    use crate::schema::attendees::dsl::*;
+    let conn = dbconnect();
+    let results = attendees
+        .filter(preimage.eq(&secret))
+        .load::<Attendee>(&conn)
+        .expect("Error loading attendees");
+
+    let attendee = results.get(0).unwrap();
+    Json(VerifyResponse {
+        firstname: attendee.firstname.to_string(),
+        lastname: attendee.lastname.to_string(),
+        email: attendee.email.to_string(),
+        verified: true,
     })
 }
 

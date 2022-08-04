@@ -22,13 +22,22 @@ _LND_GRPC_HOST:_ IP address or domain name from the LND node and the port separa
 
 ## Requirements:
 
-0. You need Rust version 1.48 or higher to compile this.
+0. You need Rust version 1.48 or higher to compile.
 1. You need to have LND 0.14.2, ideally v0.15.0-beta
 
 ## Compile and execute it:
 
+To compile on linux, please install cargo, then run the following commands:
+
 ```
-$ cargo build
+sudo apt update
+sudo apt install -y build-essential
+```
+
+Then build:
+
+```
+$ cargo build --release
 $ target/debug/danta
 ```
 

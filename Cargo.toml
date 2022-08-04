@@ -14,7 +14,7 @@ rocket = { version = "0.5.0-rc.2", default-features = false, features = ["json"]
 serde = { version = "1.0.138", features = ["derive"] }
 serde_derive = "1.0.139"
 serde_json = "1.0.82"
-tonic_lnd = "0.4.0"
+tonic_openssl_lnd = "0.1.4"
 tokio = { version =  "1.20.0", features = ["rt-multi-thread", "macros"] }
 tokio-stream = "0.1.9"
 hex = "0.4.3"

@@ -2,8 +2,8 @@ use danta::db::connect as dbconnect;
 use danta::lightning::ln::connect;
 use diesel::prelude::*;
 use rocket;
-use tonic_lnd::rpc::invoice::InvoiceState;
-use tonic_lnd::rpc::InvoiceSubscription;
+use tonic_openssl_lnd::lnrpc::invoice::InvoiceState;
+use tonic_openssl_lnd::lnrpc::InvoiceSubscription;
 
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {

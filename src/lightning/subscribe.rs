@@ -1,8 +1,9 @@
 use crate::db::connect;
 use diesel::prelude::*;
-use tonic_lnd::rpc::InvoiceSubscription;
+use tonic_openssl_lnd::lnrpc::InvoiceSubscription;
+use tonic_openssl_lnd::LndLightningClient;
 
-pub async fn invoice(client: &mut tonic_lnd::Client) {
+pub async fn invoice(client: &mut LndLightningClient) {
     use crate::schema::attendees::dsl::*;
     let conn = connect();
     let mut invoice_stream = client

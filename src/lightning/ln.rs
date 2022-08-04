@@ -1,16 +1,19 @@
 use dotenv::dotenv;
 use std::env;
-use tonic_lnd::rpc::{AddInvoiceResponse, Invoice, PaymentHash};
+use tonic_openssl_lnd::lnrpc::{AddInvoiceResponse, Invoice, PaymentHash};
+use tonic_openssl_lnd::{LndClientError, LndLightningClient};
 
-pub async fn connect() -> Result<tonic_lnd::Client, tonic_lnd::ConnectError> {
+pub async fn connect() -> Result<LndLightningClient, LndClientError> {
     dotenv().ok();
-    let http_str = "https://".to_string();
-    let address = env::var("LND_GRPC_HOST").expect("LND_GRPC_HOST must be set");
+    let port: u32 = env::var("LND_GRPC_PORT")
+        .expect("LND_GRPC_PORT must be set")
+        .parse()
+        .expect("port is not u32");
+    let host = env::var("LND_GRPC_HOST").expect("LND_GRPC_HOST must be set");
     let cert = env::var("LND_CERT_FILE").expect("LND_CERT_FILE must be set");
     let macaroon = env::var("LND_MACAROON_FILE").expect("LND_MACAROON_FILE must be set");
-    let address = format!("{}{}", http_str, address);
-    // Connecting to LND requires only address, cert file, and macaroon file
-    let client = tonic_lnd::connect(address, cert, macaroon)
+    // Connecting to LND requires only host, port, cert file, and macaroon file
+    let client = tonic_openssl_lnd::connect_lightning(host, port, cert, macaroon)
         .await
         .expect("Failed connecting to LND");
 
@@ -18,10 +21,10 @@ pub async fn connect() -> Result<tonic_lnd::Client, tonic_lnd::ConnectError> {
 }
 
 pub async fn add_invoice(
-    client: &mut tonic_lnd::Client,
+    client: &mut LndLightningClient,
     memo: &str,
     amount: u32,
-) -> Result<AddInvoiceResponse, tonic_lnd::Error> {
+) -> Result<AddInvoiceResponse, LndClientError> {
     let invoice = Invoice {
         memo: memo.to_string(),
         value: amount as i64,
@@ -34,9 +37,9 @@ pub async fn add_invoice(
 }
 
 pub async fn get_invoice(
-    client: &mut tonic_lnd::Client,
+    client: &mut LndLightningClient,
     hash: &[u8],
-) -> Result<Invoice, tonic_lnd::Error> {
+) -> Result<Invoice, LndClientError> {
     let invoice = client
         .lookup_invoice(PaymentHash {
             r_hash: hash.to_vec(),

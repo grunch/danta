@@ -2,7 +2,11 @@
 
 Simple lightning event registration rust app, this app connects to a lnd node using gRPC.
 
-# Install
+## Data
+
+Data is saved in a sqlite db file called by default `data.db`, this file is saved on the root directory of the project and can be change just editing the env var `DATABASE_URL` on the `.env` file.
+
+## Install
 
 Clone the repository and then create a new `.env` file based on `.env-sample` file.
 
@@ -18,7 +22,9 @@ _LND_CERT_FILE:_ LND node TLS certificate file path, the default is `$HOME/.lnd/
 
 _LND_MACAROON_FILE:_ Macaroon file path, the macaroon file contains permission for doing actions on the lnd node, for this app a good choice is to use the `invoice.macaroon` file, the default is `$HOME/.lnd/data/chain/bitcoin/mainnet/invoice.macaroon`.
 
-_LND_GRPC_HOST:_ IP address or domain name from the LND node and the port separated by colon (`:`), example: `192.168.0.2:10009`.
+_LND_GRPC_HOST:_ IP address or domain name from the LND node, example: `192.168.0.2`.
+
+_LND_GRPC_PORT:_ LND node port to connect, example: `10009`.
 
 ## Requirements:
 

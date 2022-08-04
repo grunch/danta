@@ -27,11 +27,11 @@ _LND_GRPC_HOST:_ IP address or domain name from the LND node and the port separa
 
 ## Compile and execute it:
 
-To compile on linux, please install cargo, then run the following commands:
+To compile on Ubuntu/Pop!\_OS, please install cargo, then run the following commands:
 
 ```
 sudo apt update
-sudo apt install -y build-essential libsqlite3-0 libsqlite3-dev
+sudo apt install -y build-essential libsqlite3-dev pkg-config libssl-dev
 ```
 
 Then build:

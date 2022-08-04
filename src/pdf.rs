@@ -8,8 +8,7 @@ use std::fs::remove_file;
 use std::path::Path;
 
 const FONT_DIRS: &[&str] = &[
-    "/usr/share/fonts/liberation",
-    "/usr/share/fonts/truetype/liberation",
+    "fonts",
 ];
 const DEFAULT_FONT_NAME: &'static str = "LiberationSans";
 

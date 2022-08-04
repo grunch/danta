@@ -31,7 +31,7 @@ To compile on Ubuntu/Pop!\_OS, please install cargo, then run the following comm
 
 ```
 sudo apt update
-sudo apt install -y build-essential libsqlite3-dev pkg-config libssl-dev
+sudo apt install -y cmake build-essential libsqlite3-dev pkg-config libssl-dev
 ```
 
 Then build:

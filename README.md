@@ -2,9 +2,10 @@
 
 Simple lightning event registration rust app, this app connects to a lnd node using gRPC.
 
-## Data
+## Requirements:
 
-Data is saved in a sqlite db file called by default `data.db`, this file is saved on the root directory of the project and can be change just editing the env var `DATABASE_URL` on the `.env` file.
+0. You need Rust version 1.48 or higher to compile.
+1. You need to have LND 0.14.2, ideally v0.15.0-beta
 
 ## Install
 
@@ -26,18 +27,31 @@ _LND_GRPC_HOST:_ IP address or domain name from the LND node, example: `192.168.
 
 _LND_GRPC_PORT:_ LND node port to connect, example: `10009`.
 
-## Requirements:
+### Database
 
-0. You need Rust version 1.48 or higher to compile.
-1. You need to have LND 0.14.2, ideally v0.15.0-beta
+The data is saved in a sqlite db file named by default `data.db`, this file is saved on the root directory of the project and can be change just editing the env var `DATABASE_URL` on the `.env` file.
+
+Before start building we need to initialize the database, for this we need to use `diesel_cli`:
+
+```
+$ cargo install diesel_cli --no-default-features --features sqlite
+```
+
+Now we can initialize our database:
+
+```
+DATABASE_URL=data.db diesel migration run
+```
+
+This creates `data.db` in our project file.
 
 ## Compile and execute it:
 
-To compile on Ubuntu/Pop!\_OS, please install cargo, then run the following commands:
+To compile on Ubuntu/Pop!\_OS, please install [cargo](https://www.rust-lang.org/tools/install), then run the following commands:
 
 ```
-sudo apt update
-sudo apt install -y cmake build-essential libsqlite3-dev pkg-config libssl-dev
+$ sudo apt update
+$ sudo apt install -y cmake build-essential libsqlite3-dev pkg-config libssl-dev
 ```
 
 Then build:

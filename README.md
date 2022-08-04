@@ -31,7 +31,7 @@ To compile on linux, please install cargo, then run the following commands:
 
 ```
 sudo apt update
-sudo apt install -y build-essential
+sudo apt install -y build-essential libsqlite3-0 libsqlite3-dev
 ```
 
 Then build:

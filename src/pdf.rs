@@ -4,8 +4,8 @@ use genpdf::{elements, fonts, style};
 use image::Luma;
 use qrcode::QrCode;
 use std::env;
-use std::path::Path;
 use std::fs::remove_file;
+use std::path::Path;
 
 const FONT_DIRS: &[&str] = &[
     "/usr/share/fonts/liberation",
@@ -48,10 +48,7 @@ pub fn generate_pdf(preimage: &str) {
             .styled(style::Style::new().bold().with_font_size(20)),
     );
     doc.push(elements::Break::new(1.5));
-    doc.push(
-        elements::Paragraph::new(&description)
-            .styled(style::Style::new().with_font_size(10)),
-    );
+    doc.push(elements::Paragraph::new(&description).styled(style::Style::new().with_font_size(10)));
 
     doc.push(
         elements::Paragraph::new("Present this ticket on the event entrance")
@@ -75,7 +72,7 @@ pub fn generate_pdf(preimage: &str) {
         elements::Image::from_path(image_path)
             .expect("Unable to load alt image")
             .with_scale(genpdf::Scale::new(2, 2))
-            .with_position(genpdf::Position::new(69, 12)) // far over to right and down
+            .with_position(genpdf::Position::new(69, 12)), // far over to right and down
     );
     doc.push(elements::Break::new(13));
     doc.push(
@@ -88,10 +85,7 @@ pub fn generate_pdf(preimage: &str) {
     doc.push(elements::Paragraph::new(&datetime_str).aligned(Alignment::Center));
     doc.push(elements::Break::new(5));
 
-    doc.push(
-        elements::Paragraph::new(&note)
-            .styled(style::Style::new().with_font_size(10)),
-    );
+    doc.push(elements::Paragraph::new(&note).styled(style::Style::new().with_font_size(10)));
     let pdf_path_string = format!("./files/{preimage}.pdf");
     let pdf_path: &str = &pdf_path_string;
     let pdf_path = Path::new(pdf_path);

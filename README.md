@@ -58,7 +58,7 @@ Then build:
 
 ```
 $ cargo build --release
-$ target/debug/danta
+$ target/release/danta
 ```
 
 Go to http://localhost:8000

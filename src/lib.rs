@@ -2,12 +2,15 @@
 extern crate rocket;
 #[macro_use]
 extern crate diesel;
+#[macro_use]
+extern crate simple_excel_writer;
 
 use rocket::fs::relative;
 use rocket::fs::FileServer;
 use rocket_dyn_templates::Template;
 
 pub mod db;
+pub mod excel;
 pub mod lightning;
 pub mod models;
 pub mod pdf;
@@ -20,7 +23,7 @@ pub fn rocket() -> _ {
         .register("/", catchers![routes::not_found])
         .mount("/files", FileServer::from(relative!("files")))
         .mount("/public", FileServer::from(relative!("static")))
-        .mount("/", routes![routes::index])
+        .mount("/", routes![routes::index, routes::show_all_attendees,])
         .mount(
             "/api",
             routes![

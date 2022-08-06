@@ -1,4 +1,5 @@
 use crate::db::connect as dbconnect;
+use crate::excel;
 use crate::lightning::ln::{add_invoice, connect, get_invoice};
 use crate::models::{Attendee, NewAttendee};
 use crate::pdf::generate_pdf;
@@ -61,6 +62,24 @@ pub fn get_all_attendees() -> Json<Vec<Attendee>> {
         .expect("Error loading attendees");
 
     Json(results)
+}
+
+#[get("/attendees/<token>")]
+pub fn show_all_attendees(token: &str) -> Template {
+    dotenv().ok();
+    let ttoken = env::var("TOKEN").expect("TOKEN must be set");
+    if ttoken != token {
+        panic!("Invalid token");
+    }
+
+    use crate::schema::attendees::dsl::*;
+    let conn = dbconnect();
+    let results = attendees
+        .load::<Attendee>(&conn)
+        .expect("Error loading attendees");
+
+    excel::generate_file(&results);
+    Template::render("attendees", context! { attendees: results })
 }
 
 #[post("/invoice", format = "application/json", data = "<user>")]

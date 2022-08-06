@@ -21,6 +21,7 @@ hex = "0.4.3"
 genpdf = { version = "0.2.0", features = ["images"]}
 qrcode = "0.12.0"
 image = "0.23.14"
+simple_excel_writer = "0.2.0"
 
 [dependencies.rocket_dyn_templates]
 version = "0.1.0-rc.2"

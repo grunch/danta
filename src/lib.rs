@@ -2,8 +2,6 @@
 extern crate rocket;
 #[macro_use]
 extern crate diesel;
-#[macro_use]
-extern crate simple_excel_writer;
 
 use rocket::fs::relative;
 use rocket::fs::FileServer;

@@ -1,8 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Anybody:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-text-menu: #06afbe;
+  --background-color: #11283a;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+body {
+  background: rgb(32,43,60);
+  background: linear-gradient(180deg, rgb(32,43,60) 0%, rgb(32,43,60) 65%, rgba(0,110,127,1) 100%);
+
+  font-family: 'Anybody', cursive;
+  font-size: 18px;
+}
+
+p {
+  color: #06AFBE;
+}
+
 .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 120px;
+}
+
+.header {
+  padding-top: 50px;
+  display: flex;
+  height: 100px;
+  align-items: center;
+}
+
+h1,h2{
+  margin: 0;
+  color: white;
+}
+
+/*Boxs*/
+
+.box-container{
+  /* padding-top: 50px; */
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-bottom: 80px;
+}
+
+.box-container::after{
+  content: "";
+  width:439px;
+  height: 740px;
+  background-image: url(./img/layer-right.png);
+  background-size: cover;
+  position: absolute;
+  top: 800px;
+  right: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.box{
+  width: 350px;
+  height: 330px;
+  border-radius: 10px;
+  background-color: rgb(20, 29, 39);
+  /* padding: 4rem 8rem; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  /* max-width: 420px; */
+}
+
+.box img{
+  height: 150px;
+}
+
+.box h3{
+  color: var(--color-text-menu);
+}
+
+h2 {
+  font-size: 2.3em;
+  background: #FFFFFF;
+  background: #06AFBE;
+  background: linear-gradient(to top left, #06AFBE 0%, #FFFFFF 120%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 #bolt {
-  width: 300%;
+  width: 60px;
   height: auto;
 }
 
@@ -62,4 +155,30 @@
   100% {
     box-shadow: inset 0px 0px 0px 30px #7ac142;
   }
+}
+
+ a:link {
+  color: #2ec0cd;
+}
+
+/* selected link */
+a:active {
+  color: #2ec0cd;
+}
+
+/* visited link */
+a:visited {
+  color: #2ec0cd;
+}
+
+#organizer {
+  width: 250px;
+}
+
+.sponsor {
+  width: 250px;
+}
+
+a.btn:link {
+  color: #fff;
 }

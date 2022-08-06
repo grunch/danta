@@ -12,13 +12,58 @@
   <div class="container">
     <div class="mt-5 d-flex justify-content-evenly align-items-center">
         <div>
-          <h1>Lightning Hackday</h1>
-        </div>
-        <div>
-          <img id="bolt" src = "/public/svg/lightning.svg" />
+          <h2>
+            <img id="bolt" src = "/public/svg/lightning.svg" />
+            Lightning Hackday #1
+            <img id="bolt" src = "/public/svg/lightning.svg" />
+          </h2>
         </div>
     </div>
-    <div id="attendee-form" class="collapse">
+    <div class="mt-5">
+      <p>
+        La <a href="https://bitcoinargentina.org/" target="_blank">ONG Bitcoin Argentina</a> te invita a participar en el primero de una serie de eventos dedicados a Lightning Network
+      </p>
+      <p>
+        ONG Bitcoin Argentina, una organización sin fines de lucro que desde el 2013 promueve y difunde las ventajas de las tecnologías descentralizadas, presentó hoy el Lightning Hackday, una jornada de capacitación gratuita y presencial sobre Lightning Network, su funcionamiento y posibilidades de desarrollo. El evento, que se realizará el sábado 27 de agosto en <a href="https://www.areatresworkplace.com/home" target="_blank">Área 3</a>, ubicado en El Salvador 5218, en la Ciudad Autónoma de Buenos Aires (CABA), contará con charlas, workshops y clases dictadas por profesionales y especialistas. 
+      </p>
+
+      <p>
+        La jornada comenzará a las 10 de la mañana y culminará a las 17:30 horas. La inscripción es libre y gratuita hasta agotar cupo, y debe realizarse a través de este sitio web que si bien te solicitará que pagues una factura por 100 satoshis, estos te serán devueltos el día del evento.
+      </p>
+    </div>
+
+    <div class="mt-5 mb-5 d-flex justify-content-center">
+      <div class="mt-3">
+        <h2>
+          Organiza
+        </h2>
+      </div>
+    </div>
+
+    <div class="mt-5 mb-5 d-flex justify-content-center">
+      <div class="mt-3 align-items-center">
+        <img id="organizer" class="rounded mx-auto d-block" src="/public/img/btc-arg.png" />
+      </div>
+    </div>
+
+    <div class="mt-5 mb-5 d-flex justify-content-center">
+      <div class="mt-3">
+        <h2>
+          Patrocinan
+        </h2>
+      </div>
+    </div>
+
+    <div class="mt-5 mb-5 row g-2">
+        <div class="col-md">
+          <img class="rounded float-start sponsor" src="/public/img/fulgur.png" />
+        </div>
+        <div class="col-md">
+          <img class="rounded float-end sponsor" src="/public/img/galoy.png" />
+        </div>
+    </div>
+
+    <div id="attendee-form" class="mb-5 collapse">
       <div class="row">
         <p class="text-center">Ingrese sus datos para registrarse</p>
       </div>
@@ -38,15 +83,15 @@
           </div>
 
           <div class="mb-3">
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-light btn-lg">Enviar</button>
           </div>
         </div>
       </form>
     </div>
 
-    <div id="invoice" class="collapse bg-light rounded-3 jumbotron">
+    <div id="invoice" class="mb-5 collapse bg-light rounded-3 jumbotron">
       <h3 id="invoice-memo">#LightningHackday POAP</h3>
-      <h2><span id="invoice-amount">0</span> SATs</h2>
+      <h3><span id="invoice-amount">0</span> SATs</h3>
       <p class="lead">Para continuar, haga un pago con una billetera con soporte Bitcoin Lightning Network a la siguiente factura.</p>
       <p class="lead">Esta factura expira en 10 minutos.</p>
       <hr class="my-4">
@@ -55,7 +100,7 @@
       <p id="invoice-text"></p>
     </div>
 
-    <div id="success-box" class="collapse bg-light rounded-3 jumbotron">
+    <div id="success-box" class="mb-5 collapse bg-light rounded-3 jumbotron">
       <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
         <circle class="checkmark_circle" cx="26" cy="26" r="25" fill="none"></circle>
         <path class="checkmark_check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"></path>

@@ -14,7 +14,11 @@ body {
   background: linear-gradient(180deg, rgb(32,43,60) 0%, rgb(32,43,60) 65%, rgba(0,110,127,1) 100%);
 
   font-family: 'Anybody', cursive;
-  font-size: 18px;
+  font-size: 22px;
+}
+
+#header {
+  width: 100%;
 }
 
 p {
@@ -218,4 +222,12 @@ a.btn:visited {
   overflow: hidden;
   border: 3px solid #fff;
   border-radius: 50%;
+}
+
+li {
+  color: #06AFBE;
+}
+
+h4 {
+  color: #fff;
 }

@@ -5,8 +5,8 @@ const App = {
 };
 
 App.init = () => {
-  $("#attendee-form").collapse("show");
-  $("#form").on("submit", App.submit);
+  $(".attendee-form").collapse("show");
+  $(".attendee-form").on("submit", App.submit);
 };
 
 App.submit = async (e) => {
@@ -20,17 +20,22 @@ App.submit = async (e) => {
       api: "invoice",
       post: { firstname, lastname, email },
     });
-    console.log(response);
 
     if (!response) console.error("Error getting data!");
     if (response.success) {
-      $("#attendee-form").collapse("hide");
+      $(".attendee-form").collapse("hide");
       $("#invoice").collapse("show");
       $("#invoice-text").text(response.request);
       $("#invoice-memo").text(response.description);
       $("#invoice-amount").text(`${response.amount} `);
       const qrCode = App.qrCode(response.request.toUpperCase(), 400);
       $("#qr-code").html(qrCode);
+      $("html, body").animate(
+        {
+          scrollTop: $("#ancla").offset().top,
+        },
+        1000
+      );
       App.interval = setInterval(App.waitPayment, 2000, response.hash);
     }
   } catch (error) {

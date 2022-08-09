@@ -231,3 +231,24 @@ li {
 h4 {
   color: #fff;
 }
+
+@media screen and (max-width:1000px){
+
+  .container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px;
+  }
+
+  .header{
+    padding-left: 90px;
+  }
+
+  .footer-container{
+    padding: 25px;
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+  }
+}

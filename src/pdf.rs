@@ -41,7 +41,6 @@ pub fn generate_pdf(preimage: &str) {
 
     doc.push(
         elements::Paragraph::new(&title)
-            .aligned(Alignment::Center)
             .styled(style::Style::new().bold().with_font_size(20)),
     );
     doc.push(elements::Break::new(1.5));

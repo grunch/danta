@@ -10,14 +10,14 @@ pub fn generate_file(attendees: &Vec<Attendee>) -> String {
     sheet.add_column(Column { width: 10.0 });
     sheet.add_column(Column { width: 30.0 });
     sheet.add_column(Column { width: 30.0 });
-    sheet.add_column(Column { width: 60.0 });
+    sheet.add_column(Column { width: 40.0 });
     sheet.add_column(Column { width: 30.0 });
 
     wb.write_sheet(&mut sheet, |sheet_writer| {
         let sw = sheet_writer;
-        sw.append_row(row!["Id", "Nombre", "Apellido", "email", "Pagó"])?;
+        sw.append_row(row!["Id", "Nombre", "Apellido", "E-mail", "Pagó"])?;
 
-        for (index, val) in attendees.iter().enumerate() {
+        for val in attendees.iter() {
             sw.append_row(row![
                 &*val.id.to_string(),
                 &*val.firstname,

@@ -25,7 +25,20 @@ App.submit = async (e) => {
     if (response.success) {
       $(".attendee-form").collapse("hide");
       $("#invoice").collapse("show");
+
       $("#invoice-text").text(response.request);
+      $("#invoice-text").attr("data-clipboard-text", response.request);
+
+      const clipboard = new ClipboardJS("#invoice-text");
+      tooltip = new bootstrap.Tooltip($("#invoice-text"), {
+        trigger: "click",
+        title: "Factura copiada",
+        delay: 600,
+      });
+      clipboard.on("success", function (e) {
+        tooltip.show();
+      });
+
       $("#open-wallet").attr("href", `lightning:${response.request}`);
       $("#invoice-memo").text(response.description);
       $("#invoice-amount").text(`${response.amount} `);

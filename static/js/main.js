@@ -26,6 +26,7 @@ App.submit = async (e) => {
       $(".attendee-form").collapse("hide");
       $("#invoice").collapse("show");
       $("#invoice-text").text(response.request);
+      $("#open-wallet").attr("href", `lightning:${response.request}`);
       $("#invoice-memo").text(response.description);
       $("#invoice-amount").text(`${response.amount} `);
       const qrCode = App.qrCode(response.request.toUpperCase(), 400);

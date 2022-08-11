@@ -6,7 +6,7 @@ const App = {
 
 App.init = () => {
   $(".attendee-form").collapse("show");
-  $(".attendee-form").on("submit", App.submit);
+  $("#form").on("submit", App.submit);
 };
 
 App.submit = async (e) => {

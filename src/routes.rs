@@ -15,11 +15,11 @@ use tonic_openssl_lnd::lnrpc::invoice::InvoiceState;
 
 #[derive(Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
-pub struct VerifyResponse {
+pub struct AttendeeResponse {
     pub firstname: String,
     pub lastname: String,
     pub email: String,
-    pub verified: bool,
+    pub paid: bool,
 }
 
 #[derive(Deserialize)]
@@ -51,6 +51,11 @@ pub struct AddInvoiceResponse {
 #[get("/")]
 pub async fn index() -> Template {
     Template::render("index", context! {})
+}
+
+#[get("/check_user")]
+pub async fn check_user() -> Template {
+    Template::render("check_user", context! {})
 }
 
 #[get("/attendee")]
@@ -152,21 +157,32 @@ pub async fn lookup_invoice(hash: &str) -> Json<InvoiceResponse> {
     })
 }
 
-#[get("/verify/<secret>")]
-pub async fn verify(secret: &str) -> Json<VerifyResponse> {
+#[get("/verify?<secret>&<email_str>")]
+pub fn verify(secret: Option<String>, email_str: Option<String>) -> Json<AttendeeResponse> {
     use crate::schema::attendees::dsl::*;
     let conn = dbconnect();
-    let results = attendees
-        .filter(preimage.eq(&secret))
+    // let mut results;
+    let mut query = attendees.into_boxed();
+    if let Some(s) = secret {
+        query = query
+            .filter(preimage.eq(s.clone()));
+    };
+
+    if let Some(e) = email_str {
+        query = query
+            .filter(email.eq(e.clone()));
+    };
+
+    let results = query
         .load::<Attendee>(&conn)
         .expect("Error loading attendees");
 
     let attendee = results.get(0).unwrap();
-    Json(VerifyResponse {
+    Json(AttendeeResponse {
         firstname: attendee.firstname.to_string(),
         lastname: attendee.lastname.to_string(),
         email: attendee.email.to_string(),
-        verified: true,
+        paid: attendee.paid,
     })
 }
 

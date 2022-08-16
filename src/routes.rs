@@ -2,7 +2,6 @@ use crate::db::connect as dbconnect;
 use crate::excel;
 use crate::lightning::ln::{add_invoice, connect, get_invoice};
 use crate::models::{Attendee, NewAttendee};
-use crate::pdf::generate_pdf;
 use diesel::prelude::*;
 use dotenv::dotenv;
 use hex::FromHex;
@@ -137,18 +136,16 @@ pub async fn lookup_invoice(hash: &str) -> Json<InvoiceResponse> {
     let mut client = connect().await.unwrap();
     let hash = <[u8; 32]>::from_hex(hash).expect("Decoding failed");
     let invoice = get_invoice(&mut client, &hash).await.unwrap();
-    let mut preimage = invoice
-        .r_preimage
-        .iter()
-        .map(|h| format!("{h:02x}"))
-        .collect::<Vec<String>>()
-        .join("");
+    let mut preimage = String::new();
 
     if let Some(state) = InvoiceState::from_i32(invoice.state) {
         if state == InvoiceState::Settled {
-            generate_pdf(&preimage);
-        } else {
-            preimage = "".to_string();
+            preimage = invoice
+                .r_preimage
+                .iter()
+                .map(|h| format!("{h:02x}"))
+                .collect::<Vec<String>>()
+                .join("");
         }
     }
     Json(InvoiceResponse {
@@ -165,23 +162,20 @@ pub fn verify(secret: Option<String>, email_str: Option<String>) -> Json<Attende
     // let mut results;
     let mut query = attendees.into_boxed();
     if let Some(s) = secret {
-        query = query
-            .filter(preimage.eq(s.clone()));
+        query = query.filter(preimage.eq(s.clone()));
     } else {
         if let Some(e) = email_str {
-            query = query
-                .filter(email.eq(e.clone()));
+            query = query.filter(email.eq(e.clone()));
         } else {
             return Json(AttendeeResponse {
                 ..Default::default()
-            })
+            });
         }
     }
     // We add this filter bc it could be more than one records
     // with the same email with paid false and true
     // This will be removed after we change the email to be unique
-    query = query
-        .filter(paid.eq(true));
+    query = query.filter(paid.eq(true));
 
     let results = query
         .load::<Attendee>(&conn)
@@ -190,7 +184,7 @@ pub fn verify(secret: Option<String>, email_str: Option<String>) -> Json<Attende
     if results.is_empty() {
         return Json(AttendeeResponse {
             ..Default::default()
-        })
+        });
     }
 
     let attendee = results.get(0).unwrap();

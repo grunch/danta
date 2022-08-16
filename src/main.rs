@@ -1,5 +1,6 @@
 use danta::db::connect as dbconnect;
 use danta::lightning::ln::connect;
+use danta::pdf::generate_pdf;
 use diesel::prelude::*;
 use rocket;
 use tonic_openssl_lnd::lnrpc::invoice::InvoiceState;
@@ -42,9 +43,11 @@ async fn main() -> Result<(), rocket::Error> {
                     let conn = dbconnect();
                     use danta::schema::attendees::dsl::*;
                     diesel::update(attendees.filter(hash.eq(&hash_str)))
-                        .set((preimage.eq(preimage_str), paid.eq(true)))
+                        .set((preimage.eq(&preimage_str), paid.eq(true)))
                         .execute(&conn)
                         .expect("Error updating attendee");
+                    // finally we create the pdf ticket
+                    generate_pdf(&preimage_str);
                 }
             }
         }

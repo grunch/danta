@@ -21,7 +21,14 @@ pub fn rocket() -> _ {
         .register("/", catchers![routes::not_found])
         .mount("/files", FileServer::from(relative!("files")))
         .mount("/public", FileServer::from(relative!("static")))
-        .mount("/", routes![routes::index, routes::show_all_attendees, routes::check_user])
+        .mount(
+            "/",
+            routes![
+                routes::index,
+                routes::show_all_attendees,
+                routes::check_user
+            ],
+        )
         .mount(
             "/api",
             routes![

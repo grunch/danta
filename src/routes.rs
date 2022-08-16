@@ -13,12 +13,13 @@ use rocket_dyn_templates::{context, Template};
 use std::env;
 use tonic_openssl_lnd::lnrpc::invoice::InvoiceState;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Default)]
 #[serde(crate = "rocket::serde")]
 pub struct AttendeeResponse {
     pub firstname: String,
     pub lastname: String,
     pub email: String,
+    pub preimage: String,
     pub paid: bool,
 }
 
@@ -166,12 +167,16 @@ pub fn verify(secret: Option<String>, email_str: Option<String>) -> Json<Attende
     if let Some(s) = secret {
         query = query
             .filter(preimage.eq(s.clone()));
-    };
-
-    if let Some(e) = email_str {
-        query = query
-            .filter(email.eq(e.clone()));
-    };
+    } else {
+        if let Some(e) = email_str {
+            query = query
+                .filter(email.eq(e.clone()));
+        } else {
+            return Json(AttendeeResponse {
+                ..Default::default()
+            })
+        }
+    }
 
     let results = query
         .load::<Attendee>(&conn)
@@ -182,6 +187,7 @@ pub fn verify(secret: Option<String>, email_str: Option<String>) -> Json<Attende
         firstname: attendee.firstname.to_string(),
         lastname: attendee.lastname.to_string(),
         email: attendee.email.to_string(),
+        preimage: attendee.preimage.to_string(),
         paid: attendee.paid,
     })
 }

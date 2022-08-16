@@ -1,7 +1,7 @@
 const App = {
   endpoint: "/api",
   interval: null,
-  server: "http://localhost:8000",
+  server: "https://lightninghackday.info",
 };
 
 App.init = () => {
@@ -50,7 +50,7 @@ App.submit = async (e) => {
         },
         1000
       );
-      App.interval = setInterval(App.waitPayment, 2000, response.hash);
+      App.interval = setInterval(App.waitPayment, 1000, response.hash);
     }
   } catch (error) {
     console.log(error.responseJSON);

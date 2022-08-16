@@ -177,10 +177,21 @@ pub fn verify(secret: Option<String>, email_str: Option<String>) -> Json<Attende
             })
         }
     }
+    // We add this filter bc it could be more than one records
+    // with the same email with paid false and true
+    // This will be removed after we change the email to be unique
+    query = query
+        .filter(paid.eq(true));
 
     let results = query
         .load::<Attendee>(&conn)
         .expect("Error loading attendees");
+
+    if results.is_empty() {
+        return Json(AttendeeResponse {
+            ..Default::default()
+        })
+    }
 
     let attendee = results.get(0).unwrap();
     Json(AttendeeResponse {

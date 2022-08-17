@@ -11,6 +11,13 @@ const FONT_DIRS: &[&str] = &["fonts"];
 const DEFAULT_FONT_NAME: &'static str = "LiberationSans";
 
 pub fn generate_pdf(preimage: &str) {
+    // First we need to know if the file already exists we don't do anything
+    let pdf_path_string = format!("./files/{preimage}.pdf");
+    let pdf_path: &str = &pdf_path_string;
+    let pdf_path = Path::new(pdf_path);
+    if pdf_path.exists() {
+        return ();
+    }
     let title = env::var("EVENT_NAME").expect("EVENT_NAME must be set");
     let description = env::var("EVENT_DESCRIPTION").expect("EVENT_DESCRIPTION must be set");
     let server_url = env::var("SERVER_URL").expect("SERVER_URL must be set");
@@ -81,9 +88,7 @@ pub fn generate_pdf(preimage: &str) {
     doc.push(elements::Break::new(5));
 
     doc.push(elements::Paragraph::new(&note).styled(style::Style::new().with_font_size(10)));
-    let pdf_path_string = format!("./files/{preimage}.pdf");
-    let pdf_path: &str = &pdf_path_string;
-    let pdf_path = Path::new(pdf_path);
+
     doc.render_to_file(&pdf_path)
         .expect("Failed to write output file");
     // Now we delete the image

@@ -2,6 +2,7 @@ use crate::db::connect as dbconnect;
 use crate::excel;
 use crate::lightning::ln::{add_invoice, connect, get_invoice};
 use crate::models::{Attendee, NewAttendee};
+use crate::pdf::generate_pdf;
 use diesel::prelude::*;
 use dotenv::dotenv;
 use hex::FromHex;
@@ -186,8 +187,11 @@ pub fn verify(secret: Option<String>, email_str: Option<String>) -> Json<Attende
             ..Default::default()
         });
     }
-
     let attendee = results.get(0).unwrap();
+
+    // In case the pdf doesn't exists, we generate the pdf
+    generate_pdf(&attendee.preimage);
+
     Json(AttendeeResponse {
         firstname: attendee.firstname.to_string(),
         lastname: attendee.lastname.to_string(),

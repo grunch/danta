@@ -59,6 +59,31 @@ pub async fn check_user() -> Template {
     Template::render("check_user", context! {})
 }
 
+#[get("/verify/<secret>")]
+pub async fn verify_user(secret: &str) -> Template {
+    use crate::schema::attendees::dsl::*;
+    let conn = dbconnect();
+    let results = attendees
+        .filter(preimage.eq(secret))
+        .load::<Attendee>(&conn)
+        .expect("Error loading attendees");
+    let attendee;
+    if results.is_empty() {
+        attendee = AttendeeResponse { ..Default::default() };
+    } else {
+        let _attendee = results.get(0).unwrap();
+        attendee = AttendeeResponse {
+            firstname: _attendee.firstname.clone(),
+            lastname: _attendee.lastname.clone(),
+            email: _attendee.email.clone(),
+            preimage: _attendee.preimage.clone(),
+            paid: _attendee.paid,
+        };
+    }
+
+    Template::render("verify_user", context! { attendee })
+}
+
 #[get("/attendee")]
 pub fn get_all_attendees() -> Json<Vec<Attendee>> {
     use crate::schema::attendees::dsl::*;

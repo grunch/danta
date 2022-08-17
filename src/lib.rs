@@ -26,7 +26,8 @@ pub fn rocket() -> _ {
             routes![
                 routes::index,
                 routes::show_all_attendees,
-                routes::check_user
+                routes::check_user,
+                routes::verify_user,
             ],
         )
         .mount(

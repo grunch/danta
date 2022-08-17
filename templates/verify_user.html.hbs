@@ -1,0 +1,18 @@
+{{#*inline "content"}}
+    <div class="mt-5 mb-5 bg-light rounded-3 jumbotron">
+      <h3>Verificación de usuario</h3>
+      <p class="lead">Nombre: {{attendee.firstname}} {{attendee.lastname}}</p>
+      <p class="lead">E-mail: {{attendee.email}}</p>
+      {{#if attendee.paid}}
+      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark_circle" cx="26" cy="26" r="25" fill="none"></circle>
+        <path class="checkmark_check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"></path>
+      </svg>
+      <p class="lead">¡Ha completado el registro!</p>
+      <p class="lead">{{attendee.preimage}}</p>
+      {{else}}
+      <p class="card-text">¡No ha completado el registro!</p>
+      {{/if}}
+    </div>
+{{/inline}}
+{{~> main~}}

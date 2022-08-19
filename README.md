@@ -2,6 +2,8 @@
 
 Simple lightning event registration rust app, this app connects to a lnd node using gRPC.
 
+![Demo](demo.mp4)
+
 ## Requirements:
 
 0. You need Rust version 1.48 or higher to compile.

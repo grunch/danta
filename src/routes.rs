@@ -84,8 +84,14 @@ pub async fn verify_user(secret: &str) -> Template {
     Template::render("verify_user", context! { attendee })
 }
 
-#[get("/attendee")]
-pub fn get_all_attendees() -> Json<Vec<Attendee>> {
+#[get("/attendees/<token>")]
+pub fn get_all_attendees(token: &str) -> Json<Vec<Attendee>> {
+    dotenv().ok();
+    let ttoken = env::var("TOKEN").expect("TOKEN must be set");
+    if ttoken != token {
+        panic!("Invalid token");
+    }
+
     use crate::schema::attendees::dsl::*;
     let conn = dbconnect();
     let results = attendees
@@ -116,6 +122,7 @@ pub fn show_all_attendees(token: &str) -> Template {
 #[post("/invoice", format = "application/json", data = "<user>")]
 pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
     dotenv().ok();
+    // Invoice creation
     let amount = match env::var("EVENT_TICKET_AMOUNT") {
         Ok(amt) => amt.parse::<u32>().unwrap(),
         Err(_) => panic!("EVENT_TICKET_AMOUNT must be set"),
@@ -130,31 +137,55 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
         .collect::<Vec<String>>()
         .join("");
 
+    // We need to know if this same user already tried to pay
     use crate::schema::attendees::dsl::*;
     let conn = dbconnect();
-    let new_attendee = NewAttendee {
-        hash: &hash_str,
-        preimage: "",
-        firstname: &user.firstname,
-        lastname: &user.lastname,
-        email: &user.email,
-        paid: false,
-        created_at: &chrono::Utc::now().naive_utc(),
-    };
-    let response = AddInvoiceResponse {
-        hash: hash_str.clone(),
-        request: invoice_response.payment_request,
-        description: memo.to_string(),
-        amount,
-        success: true,
-    };
 
-    diesel::insert_into(attendees)
-        .values(&new_attendee)
-        .execute(&conn)
-        .expect("Error saving new attendee");
+    let results = attendees
+        .filter(email.eq(&user.email))
+        .load::<Attendee>(&conn)
+        .expect("Error loading attendees");
 
-    Json(response)
+    if results.is_empty() {
+        let new_attendee = NewAttendee {
+            hash: &hash_str,
+            preimage: "",
+            firstname: &user.firstname,
+            lastname: &user.lastname,
+            email: &user.email,
+            paid: false,
+            created_at: &chrono::Utc::now().naive_utc(),
+        };
+
+        diesel::insert_into(attendees)
+            .values(&new_attendee)
+            .execute(&conn)
+            .expect("Error saving new attendee");
+
+        let response = AddInvoiceResponse {
+            hash: hash_str.clone(),
+            request: invoice_response.payment_request,
+            description: memo.to_string(),
+            amount,
+            success: true,
+        };
+        
+        return Json(response);
+    } else {
+        let attendee = results.get(0).unwrap();
+        let target = attendees.filter(email.eq(&attendee.email));
+        diesel::update(target).set(hash.eq(hash_str.clone())).execute(&conn).unwrap();
+        let response = AddInvoiceResponse {
+            hash: hash_str.clone(),
+            request: invoice_response.payment_request,
+            description: memo.to_string(),
+            amount,
+            success: true,
+        };
+
+        return Json(response);
+    }
+
 }
 
 #[get("/invoice/<hash>")]

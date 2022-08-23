@@ -69,7 +69,9 @@ pub async fn verify_user(secret: &str) -> Template {
         .expect("Error loading attendees");
     let attendee;
     if results.is_empty() {
-        attendee = AttendeeResponse { ..Default::default() };
+        attendee = AttendeeResponse {
+            ..Default::default()
+        };
     } else {
         let _attendee = results.get(0).unwrap();
         attendee = AttendeeResponse {
@@ -169,12 +171,24 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
             amount,
             success: true,
         };
-        
+
         return Json(response);
     } else {
         let attendee = results.get(0).unwrap();
+        if attendee.paid {
+            return Json(AddInvoiceResponse {
+                hash: attendee.hash.clone(),
+                request: "".to_string(),
+                description: "".to_string(),
+                amount,
+                success: true,
+            });
+        }
         let target = attendees.filter(email.eq(&attendee.email));
-        diesel::update(target).set(hash.eq(hash_str.clone())).execute(&conn).unwrap();
+        diesel::update(target)
+            .set(hash.eq(&hash_str))
+            .execute(&conn)
+            .unwrap();
         let response = AddInvoiceResponse {
             hash: hash_str.clone(),
             request: invoice_response.payment_request,
@@ -185,7 +199,6 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
 
         return Json(response);
     }
-
 }
 
 #[get("/invoice/<hash>")]

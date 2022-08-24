@@ -144,7 +144,7 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
     let conn = dbconnect();
 
     let results = attendees
-        .filter(email.eq(&user.email))
+        .filter(email.eq(&user.email.to_lowercase()))
         .load::<Attendee>(&conn)
         .expect("Error loading attendees");
 
@@ -154,7 +154,7 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
             preimage: "",
             firstname: &user.firstname,
             lastname: &user.lastname,
-            email: &user.email,
+            email: &user.email.to_lowercase(),
             paid: false,
             created_at: &chrono::Utc::now().naive_utc(),
         };
@@ -184,7 +184,8 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
                 success: true,
             });
         }
-        let target = attendees.filter(email.eq(&attendee.email));
+        let email_str = attendee.email.to_lowercase();
+        let target = attendees.filter(email.eq(&email_str));
         diesel::update(target)
             .set(hash.eq(&hash_str))
             .execute(&conn)
@@ -235,7 +236,7 @@ pub fn verify(secret: Option<String>, email_str: Option<String>) -> Json<Attende
         query = query.filter(preimage.eq(s.clone()));
     } else {
         if let Some(e) = email_str {
-            query = query.filter(email.eq(e.clone()));
+            query = query.filter(email.eq(e.to_lowercase().clone()));
         } else {
             return Json(AttendeeResponse {
                 ..Default::default()

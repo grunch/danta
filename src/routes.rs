@@ -3,6 +3,7 @@ use crate::excel;
 use crate::lightning::ln::{add_invoice, connect, get_invoice};
 use crate::models::{Attendee, NewAttendee};
 use crate::pdf::generate_pdf;
+use chrono::prelude::*;
 use diesel::prelude::*;
 use dotenv::dotenv;
 use hex::FromHex;
@@ -51,7 +52,13 @@ pub struct AddInvoiceResponse {
 
 #[get("/")]
 pub async fn index() -> Template {
-    Template::render("index", context! {})
+    let closing_date = env::var("CLOSING_DATE").expect("CLOSING_DATE must be set");
+    let closing_date = DateTime::parse_from_rfc3339(&closing_date)
+        .unwrap()
+        .timestamp();
+    let now = Local::now().timestamp();
+
+    Template::render("index", context! { close: now > closing_date })
 }
 
 #[get("/check_user")]

@@ -3,7 +3,9 @@
       <img id="header" src="/public/img/header.jpg" />
     </div>
     <div id="ancla"></div>
+
     <div class="mt-5 mb-5 attendee-form collapse">
+      {{#if (not close)}}
       <div class="row">
         <p class="text-center">Ingrese sus datos para registrarse</p>
       </div>
@@ -30,8 +32,9 @@
       <h4>
         El registro previo y la confirmación de la asistencia, por parte del usuario, se realiza por cuestiones de organización. Por ende, ambas instancias no aseguran su cupo el día del Evento presencial. Los lugares para el Evento serán distribuidos según orden de llegada de los usuarios.
       </h4>
+      {{/if}}
       <h4>
-        IMPORTANTE: Si realizaste el pago pero no has podido descargar tu entrada puedes descargarla <a href="/check_user">aquí</a>
+        Si realizaste el pago pero no has podido descargar tu entrada puedes descargarla <a href="/check_user">aquí</a>
       </h4>
     </div>
 

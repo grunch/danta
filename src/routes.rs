@@ -12,6 +12,7 @@ use rocket::serde::{Deserialize, Serialize};
 use rocket::Request;
 use rocket_dyn_templates::{context, Template};
 use std::env;
+use std::fs;
 use tonic_openssl_lnd::lnrpc::invoice::InvoiceState;
 
 #[derive(Serialize, Deserialize, Default)]
@@ -57,8 +58,12 @@ pub async fn index() -> Template {
         .unwrap()
         .timestamp();
     let now = Local::now().timestamp();
+    let speakers = fs::read_to_string("static/speakers.json").expect("Unable to read file");
+    println!("{speakers:?}");
+    let speakers: serde_json::Value =
+        serde_json::from_str(&speakers).expect("JSON was not well-formatted");
 
-    Template::render("index", context! { close: now > closing_date })
+    Template::render("index", context! { close: now > closing_date, speakers })
 }
 
 #[get("/check_user")]
@@ -125,6 +130,7 @@ pub fn show_all_attendees(token: &str) -> Template {
         .expect("Error loading attendees");
 
     excel::generate_file(&results);
+
     Template::render("attendees", context! { attendees: results })
 }
 

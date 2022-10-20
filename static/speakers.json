@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Jon *Mad dog* Hall",
+    "image": "https://media-exp1.licdn.com/dms/image/C4E03AQEi4fgjAprMNg/profile-displayphoto-shrink_800_800/0/1605587400957?e=2147483647&v=beta&t=STWuBijOdeuDNxR7rLgXQKdjN0YNqELT5yJ4XoH05a4",
+    "social_media_link": "https://www.linkedin.com/in/maddog",
+    "notes": " Board Chair at Linux Professional Institute"
+  },
+  {
+    "name": "Linus Torvalds",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/01/LinuxCon_Europe_Linus_Torvalds_03_%28cropped%29.jpg",
+    "social_media_link": "https://es.wikipedia.org/wiki/Linus_Torvalds",
+    "notes": "Linux"
+  }
+]

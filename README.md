@@ -47,16 +47,16 @@ DATABASE_URL=data.db diesel migration run
 
 This creates `data.db` in our project file.
 
-## Compile and execute it:
+## Install dependencies
 
-To compile on Ubuntu/Pop!\_OS, please install [cargo](https://www.rust-lang.org/tools/install), then run the following commands:
+To compile on Ubuntu/Pop!\_OS, you need to install some dependencies, run the following commands:
 
 ```
 $ sudo apt update
 $ sudo apt install -y cmake build-essential libsqlite3-dev pkg-config libssl-dev
 ```
 
-Then build:
+## Compile and execute it:
 
 ```
 $ cargo build --release

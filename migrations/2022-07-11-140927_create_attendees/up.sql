@@ -5,6 +5,7 @@ CREATE TABLE attendees (
   firstname varchar(100) not null,
   lastname varchar(100) not null,
   email varchar(50) not null,
+  data1 varchar(200) not null,
   paid boolean default false not null,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP not null
 )

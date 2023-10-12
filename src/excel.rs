@@ -1,7 +1,7 @@
 use crate::models::Attendee;
 use simple_excel_writer::*;
 
-pub fn generate_file(attendees: &Vec<Attendee>) -> String {
+pub fn generate_file(attendees: &[Attendee]) -> String {
     let file = "./files/attendees.xlsx";
     let mut wb = Workbook::create(file);
     let mut sheet = wb.create_sheet("Asistentes Lightning Hackday");
@@ -15,13 +15,13 @@ pub fn generate_file(attendees: &Vec<Attendee>) -> String {
 
     wb.write_sheet(&mut sheet, |sheet_writer| {
         let sw = sheet_writer;
-        sw.append_row(row!["Id", "Nombre", "Apellido", "E-mail", "Pagó"])?;
+        sw.append_row(row!["Id", "Nombre", "github", "E-mail", "Pagó"])?;
 
         for val in attendees.iter() {
             sw.append_row(row![
                 &*val.id.to_string(),
                 &*val.firstname,
-                &*val.lastname,
+                &*val.data1,
                 &*val.email,
                 &*val.paid.to_string()
             ])?;

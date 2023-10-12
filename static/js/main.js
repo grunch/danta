@@ -13,12 +13,12 @@ App.submit = async (e) => {
   try {
     e.preventDefault();
     const firstname = $("#firstname").val();
-    const lastname = $("#lastname").val();
+    const data1 = $("#data1").val();
     const email = $("#email").val();
 
     const response = await App.makeRequest({
       api: "invoice",
-      post: { firstname, lastname, email },
+      post: { firstname, data1, email },
     });
 
     if (!response) console.error("Error getting data!");

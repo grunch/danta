@@ -2,7 +2,6 @@ use danta::db::connect as dbconnect;
 use danta::lightning::ln::connect;
 use danta::pdf::generate_pdf;
 use diesel::prelude::*;
-use rocket;
 use tonic_openssl_lnd::lnrpc::invoice::InvoiceState;
 use tonic_openssl_lnd::lnrpc::InvoiceSubscription;
 

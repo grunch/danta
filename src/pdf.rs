@@ -8,7 +8,7 @@ use std::fs::remove_file;
 use std::path::Path;
 
 const FONT_DIRS: &[&str] = &["fonts"];
-const DEFAULT_FONT_NAME: &'static str = "LiberationSans";
+const DEFAULT_FONT_NAME: &str = "LiberationSans";
 
 pub fn generate_pdf(preimage: &str) {
     // First we need to know if the file already exists we don't do anything
@@ -16,7 +16,7 @@ pub fn generate_pdf(preimage: &str) {
     let pdf_path: &str = &pdf_path_string;
     let pdf_path = Path::new(pdf_path);
     if pdf_path.exists() {
-        return ();
+        return;
     }
     let title = env::var("EVENT_NAME").expect("EVENT_NAME must be set");
     let description = env::var("EVENT_DESCRIPTION").expect("EVENT_DESCRIPTION must be set");
@@ -26,8 +26,7 @@ pub fn generate_pdf(preimage: &str) {
     let note = env::var("PDF_NOTE").expect("PDF_NOTE must be set");
     let font_dir = FONT_DIRS
         .iter()
-        .filter(|path| std::path::Path::new(path).exists())
-        .next()
+        .find(|path| std::path::Path::new(path).exists())
         .expect("Could not find font directory");
     let default_font =
         fonts::from_files(font_dir, DEFAULT_FONT_NAME, Some(fonts::Builtin::Helvetica))
@@ -50,7 +49,7 @@ pub fn generate_pdf(preimage: &str) {
         elements::Paragraph::new(&title).styled(style::Style::new().bold().with_font_size(20)),
     );
     doc.push(elements::Break::new(1.5));
-    doc.push(elements::Paragraph::new(&description).styled(style::Style::new().with_font_size(10)));
+    doc.push(elements::Paragraph::new(description).styled(style::Style::new().with_font_size(10)));
 
     doc.push(
         elements::Paragraph::new("Present this ticket on the event entrance")
@@ -78,18 +77,18 @@ pub fn generate_pdf(preimage: &str) {
     );
     doc.push(elements::Break::new(13));
     doc.push(
-        elements::Paragraph::new(&*preimage)
+        elements::Paragraph::new(preimage)
             .aligned(Alignment::Center)
             .styled(style::Style::new().with_font_size(6)),
     );
     doc.push(elements::Break::new(2));
-    doc.push(elements::Paragraph::new(&address).aligned(Alignment::Center));
-    doc.push(elements::Paragraph::new(&datetime_str).aligned(Alignment::Center));
+    doc.push(elements::Paragraph::new(address).aligned(Alignment::Center));
+    doc.push(elements::Paragraph::new(datetime_str).aligned(Alignment::Center));
     doc.push(elements::Break::new(5));
 
-    doc.push(elements::Paragraph::new(&note).styled(style::Style::new().with_font_size(10)));
+    doc.push(elements::Paragraph::new(note).styled(style::Style::new().with_font_size(10)));
 
-    doc.render_to_file(&pdf_path)
+    doc.render_to_file(pdf_path)
         .expect("Failed to write output file");
     // Now we delete the image
     if image_path.exists() {

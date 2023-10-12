@@ -9,6 +9,7 @@ pub struct NewAttendee<'a> {
     pub firstname: &'a str,
     pub lastname: &'a str,
     pub email: &'a str,
+    pub data1: &'a str,
     pub paid: bool,
     pub created_at: &'a NaiveDateTime,
 }
@@ -22,6 +23,7 @@ pub struct Attendee {
     pub firstname: String,
     pub lastname: String,
     pub email: String,
+    pub data1: String,
     pub paid: bool,
     pub created_at: NaiveDateTime,
 }

@@ -19,7 +19,7 @@ use tonic_openssl_lnd::lnrpc::invoice::InvoiceState;
 #[serde(crate = "rocket::serde")]
 pub struct AttendeeResponse {
     pub firstname: String,
-    pub lastname: String,
+    pub data1: String,
     pub email: String,
     pub preimage: String,
     pub paid: bool,
@@ -29,7 +29,7 @@ pub struct AttendeeResponse {
 #[serde(crate = "rocket::serde")]
 pub struct User {
     pub firstname: String,
-    pub lastname: String,
+    pub data1: String,
     pub email: String,
 }
 
@@ -54,16 +54,38 @@ pub struct AddInvoiceResponse {
 #[get("/")]
 pub async fn index() -> Template {
     let closing_date = env::var("CLOSING_DATE").expect("CLOSING_DATE must be set");
+    let max_capacity = env::var("MAX_CAPACITY")
+        .expect("MAX_CAPACITY must be set")
+        .parse::<i32>()
+        .expect("MAX_CAPACITY must be a number");
+
     let closing_date = DateTime::parse_from_rfc3339(&closing_date)
         .unwrap()
         .timestamp();
     let now = Local::now().timestamp();
-    let speakers = fs::read_to_string("static/speakers.json").expect("Unable to read file");
-    println!("{speakers:?}");
-    let speakers: serde_json::Value =
-        serde_json::from_str(&speakers).expect("JSON was not well-formatted");
+    // We need to know how many users are already registered
+    use crate::schema::attendees::dsl::*;
+    let conn = dbconnect();
+    let results = attendees
+        .filter(paid.eq(true))
+        .load::<Attendee>(&conn)
+        .expect("Error loading attendees");
 
-    Template::render("index", context! { close: now > closing_date, speakers })
+    let close = now > closing_date || results.len() as i32 >= max_capacity;
+    let speakers =
+        fs::read_to_string("static/speakers.json").expect("Unable to read speakers file");
+    let organizers =
+        fs::read_to_string("static/organizers.json").expect("Unable to read organizers file");
+    let sponsors =
+        fs::read_to_string("static/sponsors.json").expect("Unable to read sponsors file");
+
+    let speakers: serde_json::Value =
+        serde_json::from_str(&speakers).expect("speakers JSON was not well-formatted");
+    let organizers: serde_json::Value =
+        serde_json::from_str(&organizers).expect("organizers JSON was not well-formatted");
+    let sponsors: serde_json::Value =
+        serde_json::from_str(&sponsors).expect("sponsors JSON was not well-formatted");
+    Template::render("index", context! { close, speakers, organizers, sponsors })
 }
 
 #[get("/check_user")]
@@ -79,21 +101,20 @@ pub async fn verify_user(secret: &str) -> Template {
         .filter(preimage.eq(secret))
         .load::<Attendee>(&conn)
         .expect("Error loading attendees");
-    let attendee;
-    if results.is_empty() {
-        attendee = AttendeeResponse {
+    let attendee = if results.is_empty() {
+        AttendeeResponse {
             ..Default::default()
-        };
+        }
     } else {
         let _attendee = results.get(0).unwrap();
-        attendee = AttendeeResponse {
+        AttendeeResponse {
             firstname: _attendee.firstname.clone(),
-            lastname: _attendee.lastname.clone(),
+            data1: _attendee.data1.clone(),
             email: _attendee.email.clone(),
             preimage: _attendee.preimage.clone(),
             paid: _attendee.paid,
-        };
-    }
+        }
+    };
 
     Template::render("verify_user", context! { attendee })
 }
@@ -166,8 +187,9 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
             hash: &hash_str,
             preimage: "",
             firstname: &user.firstname,
-            lastname: &user.lastname,
+            lastname: "",
             email: &user.email.to_lowercase(),
+            data1: &user.data1,
             paid: false,
             created_at: &chrono::Utc::now().naive_utc(),
         };
@@ -185,7 +207,7 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
             success: true,
         };
 
-        return Json(response);
+        Json(response)
     } else {
         let attendee = results.get(0).unwrap();
         if attendee.paid {
@@ -211,7 +233,7 @@ pub async fn create_invoice(user: Json<User>) -> Json<AddInvoiceResponse> {
             success: true,
         };
 
-        return Json(response);
+        Json(response)
     }
 }
 
@@ -247,14 +269,12 @@ pub fn verify(secret: Option<String>, email_str: Option<String>) -> Json<Attende
     let mut query = attendees.into_boxed();
     if let Some(s) = secret {
         query = query.filter(preimage.eq(s.clone()));
+    } else if let Some(e) = email_str {
+        query = query.filter(email.eq(e.to_lowercase().clone()));
     } else {
-        if let Some(e) = email_str {
-            query = query.filter(email.eq(e.to_lowercase().clone()));
-        } else {
-            return Json(AttendeeResponse {
-                ..Default::default()
-            });
-        }
+        return Json(AttendeeResponse {
+            ..Default::default()
+        });
     }
     // We add this filter bc it could be more than one records
     // with the same email with paid false and true
@@ -277,7 +297,7 @@ pub fn verify(secret: Option<String>, email_str: Option<String>) -> Json<Attende
 
     Json(AttendeeResponse {
         firstname: attendee.firstname.to_string(),
-        lastname: attendee.lastname.to_string(),
+        data1: attendee.data1.to_string(),
         email: attendee.email.to_string(),
         preimage: attendee.preimage.to_string(),
         paid: attendee.paid,

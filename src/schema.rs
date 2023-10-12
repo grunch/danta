@@ -1,4 +1,6 @@
-table! {
+// @generated automatically by Diesel CLI.
+
+diesel::table! {
     attendees (id) {
         id -> Integer,
         hash -> Text,
@@ -6,6 +8,7 @@ table! {
         firstname -> Text,
         lastname -> Text,
         email -> Text,
+        data1 -> Text,
         paid -> Bool,
         created_at -> Timestamp,
     }

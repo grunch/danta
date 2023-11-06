@@ -78,6 +78,7 @@ pub async fn index() -> Template {
         fs::read_to_string("static/organizers.json").expect("Unable to read organizers file");
     let sponsors =
         fs::read_to_string("static/sponsors.json").expect("Unable to read sponsors file");
+    let talks = fs::read_to_string("static/talks.json").expect("Unable to read talks file");
 
     let speakers: serde_json::Value =
         serde_json::from_str(&speakers).expect("speakers JSON was not well-formatted");
@@ -85,7 +86,12 @@ pub async fn index() -> Template {
         serde_json::from_str(&organizers).expect("organizers JSON was not well-formatted");
     let sponsors: serde_json::Value =
         serde_json::from_str(&sponsors).expect("sponsors JSON was not well-formatted");
-    Template::render("index", context! { close, speakers, organizers, sponsors })
+    let talks: serde_json::Value =
+        serde_json::from_str(&talks).expect("talks JSON was not well-formatted");
+    Template::render(
+        "index",
+        context! { close, speakers, organizers, sponsors, talks },
+    )
 }
 
 #[get("/check_user")]

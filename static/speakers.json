@@ -1,14 +1,20 @@
 [
   {
-    "name": "Jon *Mad dog* Hall",
-    "image": "https://media-exp1.licdn.com/dms/image/C4E03AQEi4fgjAprMNg/profile-displayphoto-shrink_800_800/0/1605587400957?e=2147483647&v=beta&t=STWuBijOdeuDNxR7rLgXQKdjN0YNqELT5yJ4XoH05a4",
-    "social_media_link": "https://www.linkedin.com/in/maddog",
-    "notes": " Board Chair at Linux Professional Institute"
+    "name": "Sergi Delgado",
+    "image": "https://pbs.twimg.com/profile_images/1628830255854112770/JsE1pzLx_400x400.jpg",
+    "social_media_link": "https://twitter.com/sr_gi",
+    "notes": "Bitcoin Dev @ChaincodeLabs, @eyeofsatoshi maintainer"
   },
   {
-    "name": "Linus Torvalds",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/0/01/LinuxCon_Europe_Linus_Torvalds_03_%28cropped%29.jpg",
-    "social_media_link": "https://es.wikipedia.org/wiki/Linus_Torvalds",
-    "notes": "Linux"
+    "name": "Tadge Dryja",
+    "image": "https://pbs.twimg.com/profile_images/651212005223718913/Urmj79O1_400x400.jpg",
+    "social_media_link": "https://twitter.com/tdryja",
+    "notes": "Lightning network paper co-author"
+  },
+  {
+    "name": "Francisco Calderón",
+    "image": "https://pbs.twimg.com/profile_images/1466784936036388870/TZ7p02R4_400x400.jpg",
+    "social_media_link": "https://twitter.com/negrunch",
+    "notes": "Mostro & @lnp2pBot creator"
   }
 ]

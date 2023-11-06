@@ -81,13 +81,17 @@
       <p>Miércoles 08 de Noviembre de 18:30 a 21:30 hs.</p>
 
       <h2 class="mb-4">Temario de la jornada</h2>
-      <ul>
-        <li>Tipos de canales de pago</li>
-        <li>Nodos lightning</li>
-        <li>Enrutamiento</li>
-        <li>Wallets</li>
-        <li>Desarrollo de lightning apps</li>
-      </ul>
+      <div class="container">
+        {{#each talks}}
+        <div class="row">
+          <div class="col-1">{{time}}</div>
+          <div class="col">
+            <div>{{title}} ({{duration}})</div>
+            <div>{{speaker}}</div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
 
       <p>¡A partir de las 21hs tendremos Shawarma que sólo se puede pagar con 
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-coin-bitcoin-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

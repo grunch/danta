@@ -1,15 +1,27 @@
 [
   {
-    "name": "Sergi Delgado",
-    "image": "https://pbs.twimg.com/profile_images/1628830255854112770/JsE1pzLx_400x400.jpg",
-    "social_media_link": "https://twitter.com/sr_gi",
-    "notes": "Bitcoin Dev @ChaincodeLabs, @eyeofsatoshi maintainer"
+    "name": "Dulce Villareal",
+    "image": "https://pbs.twimg.com/profile_images/1640791602728783887/alqXu0yv_400x400.jpg",
+    "social_media_link": "https://twitter.com/Dulce_vird",
+    "notes": "Founder-BTC Educador @libdesatoshi / Director Product ⚡️ LN @bakkt"
   },
   {
     "name": "Tadge Dryja",
     "image": "https://pbs.twimg.com/profile_images/651212005223718913/Urmj79O1_400x400.jpg",
     "social_media_link": "https://twitter.com/tdryja",
     "notes": "Lightning network paper co-author"
+  },
+  {
+    "name": "Sergi Delgado",
+    "image": "https://pbs.twimg.com/profile_images/1628830255854112770/JsE1pzLx_400x400.jpg",
+    "social_media_link": "https://twitter.com/sr_gi",
+    "notes": "Bitcoin Dev @ChaincodeLabs, @eyeofsatoshi maintainer"
+  },
+  {
+    "name": "Hernán Mariño",
+    "image": "https://pbs.twimg.com/profile_images/1328493987993432065/hmAgZ0on_400x400.jpg",
+    "social_media_link": "https://twitter.com/hmarinot1",
+    "notes": "Ingeniero y docente. #Bitcoin"
   },
   {
     "name": "Francisco Calderón",

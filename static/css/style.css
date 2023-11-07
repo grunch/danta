@@ -25,6 +25,10 @@ p {
   color: #06AFBE;
 }
 
+.main-color {
+  color: #06AFBE;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;

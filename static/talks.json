@@ -6,16 +6,9 @@
     "duration": "30 min"
   },
   {
-    "title": "Watchtowers: A Defense Against Lightning Network Cheating",
+    "title": "SimLN: Demo",
     "speaker": "Sergi Delgado",
     "time": "19:05",
     "duration": "30 min"
-  },
-  {
-    "title": "utreexo: a dynamic accumulator for bitcoin state",
-    "speaker": "Tadge Dryja",
-    "time": "19:40",
-    "duration": "30 min"
   }
-
 ]
